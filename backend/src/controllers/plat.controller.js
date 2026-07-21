@@ -1,71 +1,74 @@
-import { where } from "sequelize";
-import {Plat} from "../models/Plat";
-class PlatControl{
-    getAll = async(req , res)=>{
-        try{
-            const plat = await Plat.findall()
-            if (plat.lenght === 0) res.status(404).json({message:"plat not found"})
-            res.status(200).json(plat)
-        }catch(error){
-            console.error(error)
+import { Plat } from "../models/Plat";
 
-        }
-        
-    }
-    getPlatById = async (req,res) => {
-        try{
-         const plat = await Plat.findByPk(req.params.id)
-         if(!plat){
-            res.status(404).json({massgae:"error internal" , data:plat})
-         }
-         res.status(200).json({massege:"sucess creating finding by id  ",data:plat})
-       }
-       catch(err){
-            console.log (error)
-       }
-         
-    }
-    creatPlat = async (req,res)=>{
-        try{
-            const plat = await Plat.create(req.body)
-            if (!plat){
-                res.status(404).json({message:"error in plat creation"})
-
+class PlatControl {
+    getAll = async (req, res) => {
+        try {
+            const plat = await Plat.findAll();
+            if (plat.length === 0) {
+                return res.status(404).json({ message: "plat not found" });
             }
-            res.status(201).json({message :"plat is created "})
-        }catch(error){
-            console.log("error")
+            return res.status(200).json(plat);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "internal server error" });
         }
-    }
+    };
 
-    update = async (req , res)=>{
-        try{
-            const id = req.params.id ;
+    getPlatById = async (req, res) => {
+        try {
+            const plat = await Plat.findByPk(req.params.id);
+            if (!plat) {
+                return res.status(404).json({ message: "plat not found" });
+            }
+            return res.status(200).json({ message: "success finding plat by id", data: plat });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "internal server error" });
+        }
+    };
+
+    createPlat = async (req, res) => {
+        try {
+            const plat = await Plat.create(req.body);
+            if (!plat) {
+                return res.status(400).json({ message: "error in plat creation" });
+            }
+            return res.status(201).json({ message: "plat is created", data: plat });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "internal server error" });
+        }
+    };
+
+    update = async (req, res) => {
+        try {
+            const id = req.params.id;
             const plat = await Plat.findByPk(id);
-            if(!plat) return res.status(404).json({message:"plat not found"})
-           await plat.update (req.body)
-                
-            
-        }catch(error){
-            console.log("error")
+            if (!plat) {
+                return res.status(404).json({ message: "plat not found" });
+            }
+            await plat.update(req.body);
+            return res.status(200).json({ message: "plat updated", data: plat });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "internal server error" });
         }
+    };
 
-    }
-    deletePlat = async (req , res)=>{
-        const id = req.params.id ;
-        const plat = await Plat.findByPk(id)
-        try{
-            if(!plat) return res.status(404).json({message:"plat is not deleted "})
-                await plat.destroy({
-            where:{id:id} 
-            })
-            return res.status(201).json({message:"plat is deleted "})
-
-        }catch(error){
-            console.log("error")
+    deletePlat = async (req, res) => {
+        try {
+            const id = req.params.id;
+            const plat = await Plat.findByPk(id);
+            if (!plat) {
+                return res.status(404).json({ message: "plat not found" });
+            }
+            await plat.destroy();
+            return res.status(200).json({ message: "plat is deleted" });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "internal server error" });
         }
-    }
+    };
+}
 
-
-    }
-      
+export default new PlatControl();
