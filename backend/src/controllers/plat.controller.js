@@ -40,7 +40,7 @@ class PlatControl {
         }
     };
 
-    update = async (req, res) => {
+    updatePlat = async (req, res) => {
         try {
             const id = req.params.id;
             const plat = await Plat.findByPk(id);
