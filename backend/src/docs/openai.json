@@ -1,0 +1,92 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Snack API",
+    "version": "1.0.0",
+    "description": "API de gestion des plats du snack de Hamid"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "paths": {
+    "/api/plats": {
+      "get": {
+        "summary": "Récupérer tous les plats",
+        "responses": {
+          "200": {
+            "description": "Liste des plats"
+          }
+        }
+      },
+      "post": {
+        "summary": "Créer un plat",
+        "responses": {
+          "201": {
+            "description": "Plat créé"
+          }
+        }
+      }
+    },
+    "/api/plats/{id}": {
+      "get": {
+        "summary": "Récupérer un plat",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plat trouvé"
+          },
+          "404": {
+            "description": "Plat introuvable"
+          }
+        }
+      },
+      "put": {
+        "summary": "Modifier un plat",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plat modifié"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Supprimer un plat",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Plat supprimé"
+          }
+        }
+      }
+    }
+  }
+}

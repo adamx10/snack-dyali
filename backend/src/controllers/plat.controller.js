@@ -1,4 +1,4 @@
-import { Plat } from "../models/Plat";
+import Plat from "../models/Plat.js";
 
 class PlatControl {
     getAll = async (req, res) => {

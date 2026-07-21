@@ -1,7 +1,8 @@
 
-import {sequelize } from "../config/database";
+import sequelize from "../config/database.js";
 import { DataTypes } from "sequelize";
-const Plat = sequelize.define("Plat",{
+
+const Plat = sequelize.define("Plat", {
     id :{
         type :DataTypes.INTEGER,
         primaryKey:true,
@@ -28,4 +29,6 @@ const Plat = sequelize.define("Plat",{
         default:new Date
     }
 
-})
+});
+
+export default Plat;
