@@ -3,26 +3,27 @@ import Plat from "../models/Plat.js";
 class PlatControl {
     getAll = async (req, res) => {
         try {
-            const plat = await Plat.findAll();
-            if (plat.length === 0) {
+            const plats = await Plat.findAll();
+            if (plats.length === 0) {
                 return res.status(404).json({ message: "plat not found" });
             }
-            return res.status(200).json(plat);
+            return res.status(200).json(plats);
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return res.status(500).json({ message: "internal server error" });
         }
     };
 
     getPlatById = async (req, res) => {
         try {
-            const plat = await Plat.findByPk(req.params.id);
+            const {id} = req.params
+            const plat = await Plat.findByPk(id);
             if (!plat) {
                 return res.status(404).json({ message: "plat not found" });
             }
             return res.status(200).json({ message: "success finding plat by id", data: plat });
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return res.status(500).json({ message: "internal server error" });
         }
     };
@@ -71,4 +72,4 @@ class PlatControl {
     };
 }
 
-export default new PlatControl();
+export default new PlatControl(); 
