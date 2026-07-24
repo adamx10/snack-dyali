@@ -19,16 +19,12 @@ export default function AddPlat() {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Ajouter un plat</Text>
 
-      {/* <Image
-        source={{
-          uri: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=800",
-        }}
-        style={styles.image}
-      /> */}
+     
 
       <Text style={styles.label}>Nom du plat</Text>
       <TextInput
         placeholder="Ex : Tacos"
+        
         style={styles.input}
       />
 
@@ -38,8 +34,14 @@ export default function AddPlat() {
         keyboardType="numeric"
         style={styles.input}
       />
-
+      <Text style={styles.description}>Description</Text>
+   <TextInput
+        placeholder="Ex : tajine est un plat ....."
+        keyboardType="description"
+        style={styles.input}
+      />
       <Text style={styles.label}>Catégorie</Text>
+   
 
       <TouchableOpacity style={styles.select}>
         <Text style={{ color: "#666" }}>Choisir une catégorie</Text>
