@@ -1,13 +1,14 @@
-import {getPlats} from "../src/services/platService"
-   import React, { useEffect } from 'react';
+import PlatService from "../src/services/platService.js";
+  //  import React, { useEffect } from 'react';
+   import { useQuery } from "@tanstack/react-query";
 import {
   SafeAreaView,
   View,
   Text,
-  TextInput,
+  // TextInput,
   ScrollView,
   TouchableOpacity,
-  Switch,
+  // Switch,
   StyleSheet,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -31,52 +32,67 @@ const colors = {
 
 
 
-const foods = [
-  {
-    id: '1',
-    nom: 'Tajine Kefta',
-    description: 'Plat traditionnel marocain',
-    prix: '35 DH',
-    disponible: true,
-    icon: 'restaurant-outline',
-  },
-  {
-    id: '2',
-    nom: 'Thé à la Menthe',
-    description: 'Boisson chaude',
-    prix: '8 DH',
-    disponible: true,
-    icon: 'cafe-outline',
-  },
-  {
-    id: '3',
-    nom: 'Brochettes Mixte',
-    description: 'Viande grillée',
-    prix: '30 DH',
-    disponible: false,
-    icon: 'flame-outline',
-  },
-  {
-    id: '4',
-    nom: 'Jus d\'Avocat',
-    description: 'Boisson fraîche',
-    prix: '12 DH',
-    disponible: true,
-    icon: 'wine-outline',
-  },
-];
+// const foods = [
+//   {
+//     id: '1',
+//     nom: 'Tajine Kefta',
+//     description: 'Plat traditionnel marocain',
+//     prix: '35 DH',
+//     disponible: true,
+//     icon: 'restaurant-outline',
+//   },
+//   {
+//     id: '2',
+//     nom: 'Thé à la Menthe',
+//     description: 'Boisson chaude',
+//     prix: '8 DH',
+//     disponible: true,
+//     icon: 'cafe-outline',
+//   },
+//   {
+//     id: '3',
+//     nom: 'Brochettes Mixte',
+//     description: 'Viande grillée',
+//     prix: '30 DH',
+//     disponible: false,
+//     icon: 'flame-outline',
+//   },
+//   {
+//     id: '4',
+//     nom: 'Jus d\'Avocat',
+//     description: 'Boisson fraîche',
+//     prix: '12 DH',
+//     disponible: true,
+//     icon: 'wine-outline',
+//   },
+// ];
 
 
 export default function App() {
-   useEffect(() => {
-    getPlats()
-      .then((data) => {
-        console.log("Plats :", data);
-      })
-      .catch((err) => {
-        console.log("Erreur :", err);
-      });
-  }, []);
+  //  useEffect(() => {
+  //   getPlats()
+  //     .then((data) => {
+  //       console.log("Plats :", data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Erreur :", err);
+  //     });
+  // }, []);
+ const {
+  data: foods = [],
+  isLoading,
+  error,
+} = useQuery({
+  queryKey: ["plats"],
+  queryFn: () => PlatService.getPlats(),
+});
+if (isLoading) {
+  return <Text>Chargement...</Text>;
+}
+
+if (error) {
+  return <Text>Erreur lors du chargement.</Text>;
+}
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />

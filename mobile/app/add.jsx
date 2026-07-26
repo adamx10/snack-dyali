@@ -1,3 +1,4 @@
+
 import {
   View,
   Text,
@@ -5,26 +6,63 @@ import {
   StyleSheet,
   TouchableOpacity,
   Switch,
-  Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import PlatService from "../src/services/platService.js"; 
 
 export default function AddPlat() {
+  const queryClient = useQueryClient();
+
+  const [nom, setNom] = useState("");
+  const [prix, setPrix] = useState("");
+  const [categorie, setCategorie] = useState("");
   const [disponible, setDisponible] = useState(true);
+
+  const mutation = useMutation({
+    mutationFn: (newPlat) => PlatService.createPlat(newPlat),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["plats"],
+      });
+
+      Alert.alert("Succès", "Plat ajouté avec succès");
+
+      router.back();
+    },
+
+    onError: () => {
+      Alert.alert("Erreur", "Impossible d'ajouter le plat");
+    },
+  });
+
+  const handleSubmit = () => {
+    if (!nom || !prix || !categorie) {
+      Alert.alert("Erreur", "Veuillez remplir tous les champs");
+      return;
+    }
+
+    mutation.mutate({
+      nom,
+      prix: Number(prix),
+      categorie,
+      disponible,
+    });
+  };
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Ajouter un plat</Text>
 
-     
-
       <Text style={styles.label}>Nom du plat</Text>
       <TextInput
         placeholder="Ex : Tacos"
-        
+        value={nom}
+        onChangeText={setNom}
         style={styles.input}
       />
 
@@ -32,24 +70,22 @@ export default function AddPlat() {
       <TextInput
         placeholder="Ex : 35"
         keyboardType="numeric"
+        value={prix}
+        onChangeText={setPrix}
         style={styles.input}
       />
-      <Text style={styles.description}>Description</Text>
-   <TextInput
-        placeholder="Ex : tajine est un plat ....."
-        keyboardType="description"
-        style={styles.input}
-      />
-      {/* <Text style={styles.label}>Catégorie</Text>
-   
 
-      <TouchableOpacity style={styles.select}>
-        <Text style={{ color: "#666" }}>Choisir une catégorie</Text>
-        <Ionicons name="chevron-down" size={20} color="#666" />
-      </TouchableOpacity> */}
+      <Text style={styles.label}>Catégorie</Text>
+      <TextInput
+        placeholder="Ex : Fast Food"
+        value={categorie}
+        onChangeText={setCategorie}
+        style={styles.input}
+      />
 
       <View style={styles.switchContainer}>
         <Text style={styles.label}>Disponible</Text>
+
         <Switch
           value={disponible}
           onValueChange={setDisponible}
@@ -57,8 +93,16 @@ export default function AddPlat() {
         />
       </View>
 
-      <TouchableOpacity style={styles.saveBtn}>
-        <Text style={styles.saveText}>Enregistrer le plat</Text>
+      <TouchableOpacity
+        style={styles.saveBtn}
+        onPress={handleSubmit}
+        disabled={mutation.isPending}
+      >
+        <Text style={styles.saveText}>
+          {mutation.isPending
+            ? "Enregistrement..."
+            : "Enregistrer le plat"}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => router.back()}>
@@ -83,13 +127,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  image: {
-    width: "100%",
-    height: 180,
-    borderRadius: 15,
-    marginBottom: 25,
-  },
-
   label: {
     fontWeight: "600",
     marginBottom: 8,
@@ -104,18 +141,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 1,
     borderColor: "#ddd",
-  },
-
-  select: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    height: 50,
-    paddingHorizontal: 15,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
   },
 
   switchContainer: {
