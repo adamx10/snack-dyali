@@ -4,9 +4,9 @@ class PlatControl {
     getAll = async (req, res) => {
         try {
             const plats = await Plat.findAll();
-            if (plats.length === 0) {
-                return res.status(404).json({ message: "plat not found" });
-            }
+            // if (plats.length === 0) {
+            //     return res.status(404).json({ message: "plat not found" });
+            // }
             return res.status(200).json(plats);
         } catch (error) {
             console.log(error);

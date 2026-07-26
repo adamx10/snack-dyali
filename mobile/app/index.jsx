@@ -1,5 +1,5 @@
-
-   import React from 'react';
+import {getPlats} from "../src/services/platService"
+   import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -66,7 +66,17 @@ const foods = [
   },
 ];
 
+
 export default function App() {
+   useEffect(() => {
+    getPlats()
+      .then((data) => {
+        console.log("Plats :", data);
+      })
+      .catch((err) => {
+        console.log("Erreur :", err);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
@@ -82,12 +92,13 @@ export default function App() {
 
           <View style={styles.headerTitleWrap}>
             <Text style={styles.headerTitle}>Menu de Hamid</Text>
-            <Text style={styles.headerSubtitle}>Aujourd'hui, 24 juillet</Text>
+            <Text style={styles.headerSubtitle}> Aujourd hui, 24 juillet</Text>
           </View>
+          {/* button li kaghadi nupditiw biha  */}
 
           <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
             <Ionicons name="create-outline" size={20} color={colors.text} />
-          </TouchableOpacity>
+          </TouchableOpacity> 
         </View>
 
         <View style={styles.syncBadge}>

@@ -40,13 +40,13 @@ export default function AddPlat() {
         keyboardType="description"
         style={styles.input}
       />
-      <Text style={styles.label}>Catégorie</Text>
+      {/* <Text style={styles.label}>Catégorie</Text>
    
 
       <TouchableOpacity style={styles.select}>
         <Text style={{ color: "#666" }}>Choisir une catégorie</Text>
         <Ionicons name="chevron-down" size={20} color="#666" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View style={styles.switchContainer}>
         <Text style={styles.label}>Disponible</Text>

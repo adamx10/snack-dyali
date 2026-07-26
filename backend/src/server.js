@@ -23,7 +23,7 @@ const startServer = async () => {
     try {
         await sequelize.authenticate();
         console.log("Connexion à la base de données réussie");
-        await sequelize.sync({force:true});
+        await sequelize.sync();
         console.log("vcdhvby")
          app.listen(PORT, () => {
             console.log(`Serveur démarré sur le port ${PORT}`);
