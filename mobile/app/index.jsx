@@ -133,45 +133,42 @@ if (error) {
         </ScrollView>
 
         <View style={styles.list}>
-          {foods.map((food) => (
-            <View key={food.id} style={styles.card}>
-              <View style={styles.cardIconWrap}>
-                <Ionicons name={food.icon} size={22} color={colors.primary} />
-              </View>
+  {foods.map((food) => (
+    <TouchableOpacity
+      key={food.id}
+      style={styles.card}
+      activeOpacity={0.7}
+      onPress={() => router.push(`/edit?id=${food.id}`)}
+    >
+      <View style={styles.cardIconWrap}>
+        <Ionicons name={food.icon} size={22} color={colors.primary} />
+      </View>
 
-              <View style={styles.cardInfo}>
-                <Text style={styles.cardName}>{food.nom}</Text>
-                <Text style={styles.cardDescription}>{food.description}</Text>
-                <View style={styles.cardBottomRow}>
-                  <Text style={styles.cardPrice}>{food.prix}</Text>
-                  <View   //disponible
-                    style={[
-                      styles.badge,
-                      {
-                        backgroundColor: food.disponible
-                          ? colors.successLight
-                          : '#FFE8E8',
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.badgeText,
-                        {
-                          color: food.disponible ? colors.success : '#FF4D4D',
-                        },
-                      ]}
-                    >
-                      {food.disponible ? 'Disponible' : 'Indisponible'}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-             
-            </View>
-          ))}
+      <View style={styles.cardInfo}>
+        <Text style={styles.cardName}>{food.nom}</Text>
+        <Text style={styles.cardDescription}>{food.description}</Text>
+        <View style={styles.cardBottomRow}>
+          <Text style={styles.cardPrice}>{food.prix}</Text>
+          <View
+            style={[
+              styles.badge,
+              { backgroundColor: food.disponible ? colors.successLight : colors.border },
+            ]}
+          >
+            <Text
+              style={[
+                styles.badgeText,
+                { color: food.disponible ? colors.success : colors.textMuted },
+              ]}
+            >
+              {food.disponible ? 'Disponible' : 'Indisponible'}
+            </Text>
+          </View>
         </View>
+      </View>
+    </TouchableOpacity>
+  ))}
+</View>
       </ScrollView>
 
       <TouchableOpacity style={styles.fab} activeOpacity={0.85} onPress={()=>router.push("/add")}>
